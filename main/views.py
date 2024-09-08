@@ -1,11 +1,13 @@
 from django.shortcuts import render
+from .models import NFT  # Import your NFT model
 
-# Create your views here.
 def show_main(request):
+    nfts = NFT.objects.all()  
     context = {
-        'npm' : '2306123456',
-        'name': 'Pak Bepe',
-        'class': 'PBP E'
+        'nfts': nfts  
     }
-
     return render(request, "main.html", context)
+
+def nft_detail(request, nft_id):
+    nft = NFT.objects.get(id=nft_id)  # Fetch the NFT object by its id
+    return render(request, 'nftcard.html', {'nft': nft})
