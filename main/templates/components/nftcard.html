@@ -7,7 +7,9 @@
 		<script src="https://cdn.tailwindcss.com"></script>
 	</head>
 	<body>
-		<div class="max-w-xs rounded-lg overflow-hidden shadow-lg bg-white">
+		<div
+			class="max-w-xs rounded-lg overflow-hidden shadow-lg bg-white transform transition-transform duration-75 hover:scale-105"
+		>
 			<div class="h-auto">
 				<img
 					class="w-full object-contain"
@@ -15,9 +17,10 @@
 					alt="{{ nft.name }}"
 				/>
 			</div>
-
 			<div class="px-6 py-4">
-				<div class="font-bold text-xl mb-2">{{ nft.name }}</div>
+				<div class="font-bold text-xl mb-2">
+					<h2>{{ nft.name }}</h2>
+				</div>
 				<p class="text-gray-700 text-base">{{ nft.price }} ETH</p>
 				<p class="text-gray-500 text-sm">
 					Created by: {{ nft.creator }}

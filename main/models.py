@@ -5,10 +5,10 @@ from django.db import models
 class NFT(models.Model):
     name = models.CharField(max_length=255)  
     price = models.IntegerField()  # Price in ETH
-    description = models.TextField()  # Description of the NFT
-    image = models.ImageField(upload_to='nfts/')  # Store in media/nfts folder
+    description = models.TextField()  # description
+    image = models.ImageField(upload_to='nfts/')  # Store in media/nfts folder aka locaiton of the file
     creator = models.CharField(max_length=255)  # Creator of the NFT
-    token_id = models.CharField(max_length=255, unique=True, blank=True, editable=False)  # Unique token identifier  using sha256
+    token_id = models.CharField(max_length=255, unique=True, blank=True, editable=False)  # uuid using sha256
     created_at = models.DateTimeField(auto_now_add=True)  # When the NFT was created
 
     def __str__(self):
