@@ -1,6 +1,6 @@
 # Link PWS
 
-**google.com**
+**http://daanish-inayat-nftriumm.pbp.cs.ui.ac.id/**
 
 # Creating a new django project
 
