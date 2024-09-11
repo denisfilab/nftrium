@@ -1,6 +1,6 @@
 # Link PWS
 
-**google.com**
+**http://daanish-inayat-nftriumm.pbp.cs.ui.ac.id/**
 
 # Creating a new django project
 
@@ -148,17 +148,20 @@ Git sangat penting dalam pengembangan perangkat lunak karena memungkinkan banyak
 
 Selain itu, Git memberikan **version control** yang sangat berguna. Jika ada pembaruan atau perubahan yang menyebabkan bug atau masalah, kita dapat dengan cepat **revert** ke versi sebelumnya, memastikan proyek tetap stabil dan bisa terus berkembang tanpa masalah besar.
 
-# Mengapa Django Cocok sebagai Permulaan Pembelajaran Pengembangan Perangkat Lunak?
+# Mengapa Django Cocok sebagai Langkah Awal dalam Pembelajaran Pengembangan Perangkat Lunak?
 
-Saya sudah pernah menggunakan **Next.js**, framework yang cukup bagus, terutama untuk pengembangan front-end. Namun, ada beberapa alasan mengapa **Django** mungkin lebih baik untuk permulaan pembelajaran pengembangan perangkat lunak:
+Saya sudah pernah menggunakan **Next.js** sebelumnya, dan memang framework ini cukup luar biasa, terutama dalam pengembangan front-end. Di **Next.js**, banyak hal seperti pemanggilan API, koneksi ke database, dan pengambilan data sudah sangat disederhanakan. Semua terasa lebih mudah, hampir seperti bekerja dengan "kotak hitam" di mana kita hanya perlu mengikuti prosedur yang ada.
 
-1. **Full-Stack Framework**: Django adalah framework full-stack, artinya Django menangani semua aspek pengembangan aplikasi, dari front-end hingga back-end, termasuk database sehingga pemula dapat belajar seluruh proses pengembangan aplikasi web dalam satu framework.
+Namun, justru karena itulah saya merasa **Django** lebih cocok untuk pemula yang ingin mempelajari pengembangan perangkat lunak secara menyeluruh:
 
-2. **Struktur yang Terorganisir**: Django memiliki struktur yang sangat terorganisir dan terstandarisasi. Hal ini memudahkan pemula untuk memahami alur kerja aplikasi, mulai dari URL routing, views, models, hingga templates.
+1. **Full-Stack Framework**: Django adalah framework full-stack yang berarti Django menangani semua aspek pengembangan aplikasi web, mulai dari front-end hingga back-end, termasuk database. Hal ini memberikan kesempatan bagi pemula untuk mempelajari seluruh _lifecycle_ pengembangan aplikasi dalam satu _framework_.
 
-3. **Konsep MVC (Model-View-Controller)**: Django menggunakan arsitektur **MVC**, MVC sangat baik untuk pemahaman dasar tentang pemisahan antara logika bisnis dan presentasi. Hal ini mengajarkan konsep pemrograman yang lebih rapi dan terstruktur.
+2. **Struktur yang Teratur**: Django menawarkan struktur yang sangat terorganisir. Berbeda dengan **Next.js** yang menyederhanakan banyak hal, di Django, kita perlu mengatur semuanya sendiri. Hal ini ini membuat pemahaman tentang alur kerja aplikasi menjadi lebih dalam, mulai dari routing URL, views, models, hingga templates.
 
-Meskipun **Next.js** juga sangat kuat, terutama untuk **front-end** dan aplikasi berbasis React, Django memberikan pengalaman belajar yang lebih menyeluruh bagi pemula yang ingin memahami **pengembangan aplikasi web** dari ujung ke ujung.
+3. **Pengalaman Belajar yang Menyeluruh**: Django tidak hanya mempermudah proses pengembangan, tetapi juga membuat kita memahami berbagai hal di balik layar. Kita diharuskan melakukan setup sendiri, seperti konfigurasi database (models), pemetaan URL, hingga logika backend. Dengan demikian, pemahaman kita akan pengembangan aplikasi web menjadi lebih mendalam dan menyeluruh.
+
+Sementara **Next.js** sangat membantu dalam mempercepat proses front-end development dan membuatnya terasa lebih mudah dengan kemudahan _data fetching_ dan pengaturan API, **Django** memberikan kesempatan untuk memahami setiap aspek pengembangan aplikasi dengan lebih mendalam. Ini membantu membangun dasar pengetahuan yang kuat tentang bagaimana sebuah aplikasi bekerja di balik layar.
+
 
 # Mengapa model pada Django disebut sebagai ORM?
 
