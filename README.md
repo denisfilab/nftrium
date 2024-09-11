@@ -1,3 +1,7 @@
+**Nama: Daanish Inayat Rahman**
+**NPM: 2306213136**
+**Kelas: PBP A**
+
 # Link PWS
 
 **http://daanish-inayat-nftriumm.pbp.cs.ui.ac.id/**
@@ -115,6 +119,14 @@ Setelah data NFT dikirim ke template main.html, kita bisa mengiterasi setiap NFT
 
 Di dalam komponen ini, kita menerima objek nft yang dikirim dari `main.html`. Komponen ini mengakses class attribut yang dimiliki model tersebut dan menampilkannya.
 
+# Menambahkan `URL_PATTERN` di urls.py projek
+
+Untuk memastikan projek bisa memetakan template sesuai request user, kita harus menambahkan pattern url. Dalam konteks ini, kita perlu memetakan fungsi yang pernah kita buat yaitu `show_main`. Kita perlu memasukkan kode tersebut di urls.py di dalam variable `URL_PATTERN`.
+
+```
+path('', show_main, name='show_main'),
+```
+
 # Mengubah `ALLOWED_HOST`
 
 Untuk menjalankan aplikasi Django di pws dan local, kita perlu mengatur variabel `ALLOWED_HOSTS` di file `settings.py`.
@@ -161,7 +173,6 @@ Namun, justru karena itulah saya merasa **Django** lebih cocok untuk pemula yang
 3. **Pengalaman Belajar yang Menyeluruh**: Django tidak hanya mempermudah proses pengembangan, tetapi juga membuat kita memahami berbagai hal di balik layar. Kita diharuskan melakukan setup sendiri, seperti konfigurasi database (models), pemetaan URL, hingga logika backend. Dengan demikian, pemahaman kita akan pengembangan aplikasi web menjadi lebih mendalam dan menyeluruh.
 
 Sementara **Next.js** sangat membantu dalam mempercepat proses front-end development dan membuatnya terasa lebih mudah dengan kemudahan _data fetching_ dan pengaturan API, **Django** memberikan kesempatan untuk memahami setiap aspek pengembangan aplikasi dengan lebih mendalam. Ini membantu membangun dasar pengetahuan yang kuat tentang bagaimana sebuah aplikasi bekerja di balik layar.
-
 
 # Mengapa model pada Django disebut sebagai ORM?
 

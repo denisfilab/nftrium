@@ -25,7 +25,7 @@ app_name = 'main'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', show_main, name='show_main'),\
+    path('', show_main, name='show_main'),
     path('nft/<int:nft_id>/', nft_detail, name='nft_detail'),
     # static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ]
