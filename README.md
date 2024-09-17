@@ -260,27 +260,27 @@ def show_json(request):
     data = NFT.objects.all()
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
-def show_xml_by_id(request, id):
-    data = NFT.objects.filter(pk=id)
+def show_xml_by_token_id(request, token_id):
+    data = NFT.objects.filter(token_id=token_id)
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
-def show_json_by_id(request, id):
-    data = NFT.objects.filter(pk=id)
+def show_json_by_token_id(request, token_id):
+    data = NFT.objects.filter(token_id=token_id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 ```
 Penjelasan Kode
 show_xml: Fungsi ini mengambil semua objek NFT dari database dan mengembalikannya dalam format XML.
 show_json: Fungsi ini mirip dengan show_xml, tetapi mengembalikan data dalam format JSON.
-show_xml_by_id: Fungsi ini mengambil objek NFT dengan pk (primary key) tertentu dan mengembalikannya dalam format XML.
-show_json_by_id: Fungsi ini mengambil objek NFT dengan pk tertentu dan mengembalikannya dalam format JSON.
+show_xml_by_token_id: Fungsi ini mengambil objek NFT dengan pk (primary key) tertentu dan mengembalikannya dalam format XML.
+show_json_by_token_id: Fungsi ini mengambil objek NFT dengan pk tertentu dan mengembalikannya dalam format JSON.
 
 Setelah menambahkan fungsinya, saya harus menambahakn url baru di urls.py agar route fungsinya dapat dipakai.
 Saya menambahkan kode berikut di `urls.py` dalam `main`
 ```
  path('xml/', show_xml, name='show_xml'),
 path('json/', show_json, name='show_json'),
-path('xml/<str:id>/', show_xml_by_token_id, name='show_xml_by_id'),
-path('json/<str:id>/', show_json_by_token_id, name='show_json_by_id'),
+path('xml/<str:token_id>/', show_xml_by_token_id, name='show_xml_by_token_id'),
+path('json/<str:token_id>/', show_json_by_token_id, name='show_json_by_token_id'),
 ```
 Keempat URL ini dapat diakses melalui postman maupun website biasa.
 Contoh:
@@ -290,9 +290,10 @@ Contoh:
 ### `/json`
 ![image](https://github.com/user-attachments/assets/dbed5c9e-05a2-46d5-9283-8d211003628b)
 
-### `/json/<id>`
-![image](https://github.com/user-attachments/assets/ad2ab855-0fbe-480b-8395-284c38f8e462)
+### `/json/<token_id>`
+![image](https://github.com/user-attachments/assets/e754cfcc-95df-4986-aa0b-0891f91aaa15)
 
-### `/xml/<id>`
-![image](https://github.com/user-attachments/assets/e79ba938-3f2c-4360-a6b9-e6ac6edcf6b3)
+### `/xml/<token_id>`
+![image](https://github.com/user-attachments/assets/2ccbe3bb-a527-49c3-a296-5bb8c857e98a)
+
 
