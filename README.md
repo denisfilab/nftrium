@@ -186,3 +186,32 @@ Dalam Django, **model** adalah representasi dari tabel di database. Setiap kelas
 
 1. **Objek Python**: Django mengizinkan pengembang untuk berinteraksi dengan database menggunakan objek Python, tanpa harus menulis query SQL.
 2. **Mapping Otomatis**: Django secara otomatis memetakan atribut model ke kolom di tabel database. Jadi, jika kita membuat model dengan atribut seperti `name`, `price`, atau `description`, Django akan membuat kolom dengan nama-nama tersebut di tabel database. Dalam kata lain, models adalah sebuah schema untuk database.
+
+# **Tugas 3**
+
+# Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+_Data delivery_ adalah sebuah proses pengiriman data dari satu ke titik ke titik lain. Dalam konteks _web development_, data dikirim dari _client_ ke _server_ dan juga sebaliknya. Alasan mengapa _data delivery_ penting adalah karena _data delivery_ memungkinkan interaksi antara client dan server, yang merupakan inti dari aplikasi web dinamis. Website dinamis penting karena membuat website lebih interactive dan berguna untuk user. Tidak seperti static website yang menampilkan informasi yang sama ke setiap user, website dinamis dapat menampilkan informasi yang dipersonalisasi bergantung siapa yang menggunakan websitenya atau apa yang mereke lakukan
+
+# Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+Saya pribadi hanya menggunakan JSON saat membangun aplikasi, contohnya dalam proyek Pokemon Card Generator yang saya buat. Menurut saya, menggunakan JSON terasa lebih intuitif karena penulisan kodenya lebih mudah dipahami. Penulisan JSON seperti menulis struktur data dalam bentuk dictionary atau hashmap. Contohnya, kita bisa langsung mengakses atribut-atribut dengan mudah melalui key, seperti `pokemon["name"]` atau `pokemon["abilities"]`. Sangat sederhana dan mirip seperti struktur data yang kita gunakan dalam banyak bahasa pemrograman. Inilah salah satu alasan mengapa JSON lebih populer dibandingkan XML, terutama dalam pengembangan web.
+
+Namun, dalam XML, kita membutuhkan metode tertentu untuk mengakses atau memanipulasi data. Misalnya, di JavaScript, kita harus menggunakan metode seperti `getElementsByTagName()` atau `getAttribute()` untuk mengambil nilai dari elemen XML. Hal ini membuat proses parsing data lebih rumit dibandingkan JSON, yang bisa langsung diakses dan diproses dengan metode standar.
+
+Contoh pengalaman saya lain adalah ketika saya mencoba membuat anotasi video deadlift untuk proyek computer vision saya. Data anotasi tersebut dalam format XML. Di dalam XML, setiap frame video disimpan dalam elemen <image>, yang menyertakan informasi seperti ID, nama frame, serta data penting lain yang disimpan dalam elemen <points> dan <box>. Misalnya, pada contoh berikut:
+
+```
+<image id="0" name="frame_000000" width="608" height="1080">
+    <points label="deadlifting" source="manual" points="262.65,563.65;305.53,596.01;..." />
+    <box label="deadlifting" source="manual" xtl="211.70" ytl="522.62" xbr="458.80" ybr="943.84" />
+</image>
+```
+
+Akhirnya, saya menyadari bahwa pemilihan antara JSON dan XML sangat bergantung pada use case. Dalam web development, JSON lebih populer karena lebih ringan, dan mudah dipahami. Sedangkan XML lebih cocok digunakan dalam kasus di mana kita membutuhkan struktur data yang lebih kompleks.
+
+# Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
+Method is_valid() pada form di Django digunakan untuk memastikan bahwa data yang dikirimkan ke form sesuai dengan aturan validasi yang telah ditetapkan. Aturan validasi ini mencakup beberapa aspek penting,
+1. Tipe Data: Django memastikan tipe data yang dimasukkan seperti dengan definisi model yang ada
+2. Kelengkapan Field: Django memastikan semuma field yang ditandai sebagai wajib telah diisi oleh user
+Hal ini sangat penting untuk menjaga kualitas dan konsistensi pengguna, memastikan data yang dimasukkan ke database dalam format terstruktur. Tentunya hal ini akan memudahkan dalam pengembangan aplikasi.
+
+# Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
