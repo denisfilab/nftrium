@@ -39,11 +39,12 @@ def show_json(request):
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 # Return a specific NFT by ID in XML format
-def show_xml_by_id(request, id):
-    data = NFT.objects.filter(pk=id)
+def show_xml_by_token_id(request, token_id):
+    data = NFT.objects.filter(token_id=token_id)
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
 # Return a specific NFT by ID in JSON format
-def show_json_by_id(request, id):
-    data = NFT.objects.filter(pk=id)
+def show_json_by_token_id(request, token_id):
+    data = NFT.objects.filter(token_id=token_id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
