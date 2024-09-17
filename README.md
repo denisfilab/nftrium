@@ -205,8 +205,7 @@ Contoh pengalaman saya lain adalah ketika saya mencoba membuat anotasi video dea
     <box label="deadlifting" source="manual" xtl="211.70" ytl="522.62" xbr="458.80" ybr="943.84" />
 </image>
 ```
-
-Akhirnya, saya menyadari bahwa pemilihan antara JSON dan XML sangat bergantung pada use case. Dalam web development, JSON lebih populer karena lebih ringan, dan mudah dipahami. Sedangkan XML lebih cocok digunakan dalam kasus di mana kita membutuhkan struktur data yang lebih kompleks.
+Menurut saya, pemilihan antara JSON dan XML sangat bergantung pada use case. Dalam web development, JSON lebih populer karena lebih ringan, dan mudah dipahami. Sedangkan XML lebih cocok digunakan dalam kasus di mana kita membutuhkan struktur data yang lebih kompleks.
 
 # Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
 Method is_valid() pada form di Django digunakan untuk memastikan bahwa data yang dikirimkan ke form sesuai dengan aturan validasi yang telah ditetapkan. Aturan validasi ini mencakup beberapa aspek penting,
@@ -215,3 +214,85 @@ Method is_valid() pada form di Django digunakan untuk memastikan bahwa data yang
 Hal ini sangat penting untuk menjaga kualitas dan konsistensi pengguna, memastikan data yang dimasukkan ke database dalam format terstruktur. Tentunya hal ini akan memudahkan dalam pengembangan aplikasi.
 
 # Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+CSRF token adalah nilai unik yang dihasilkan oleh server dan disematkan dalam setiap form di Django untuk melindungi aplikasi dari serangan **Cross-Site Request Forgery (CSRF)**. Kita membutuhkan csrf_token saat membuat form di Django agar memastikan bahwa setiap permintaan yang dikirim berasal dari pengguna yang sah dan bukan dari pihak ketiga yang berbahaya. Jika kita tidak menambahkan csrf_token pada form Django, aplikasi menjadi rentan terhadap serangan CSRF, di mana penyerang dapat memanfaatkan sesi pengguna yang aktif untuk menjalankan tindakan tanpa sepengetahuan atau persetujuan mereka, seperti mengubah data akun, melakukan transaksi finansial, atau mengubah pengaturan penting lainnya.
+
+# Penjelasan Kode
+
+## Pembuatan Page Form
+Pertama, saya harus membuat file `forms.py` di directory `main`. Lalu saya membuat Class NFTForm dengan attribut `model = NFT` lalu untuk field, saya memasukkan field yang perlu diisi oleh user seperti `name`, `price`, `description` dst. 
+
+Setelah membuat forms.py dan mendefinisikan NFTForm, kita perlu menambahkan fungsi di views.py. File `views.py` dibutuhkan untuk menangani logika aplikasi, seperti menerima data dari form, memvalidasi data, menyimpan data ke database, dan mengembalikan respons yang sesuai kepada pengguna. Tanpa views.py, form yang kita buat tidak akan terhubung ke sistem dan tidak dapat memproses input dari user.
+Berikut adalah kode yang ditambahkan ke views.py:
+```
+def create_nft_entry(request):
+    if request.method == "POST":
+        form = NFTForm(request.POST, request.FILES)  # Termasuk request.FILES untuk menangani file upload
+        if form.is_valid():
+            form.save()
+            return redirect('main:show_main')
+    else:
+        form = NFTForm()
+
+    context = {'form': form}
+    return render(request, "create_nft_entry.html", context)
+```
+Saya menambahkan fungsi `redirect('main:show_main')` agar ketika berhasil submit suatu form, akan balik ke main untuk melihat hasilnya.
+
+Kemudian, tambahkan path baru di urls.py untuk menghubungkan URL ke fungsi view tersebut:
+```
+path('create-nft-entry', create_nft_entry, name='create_nft_entry'),
+```
+Selanjutnya, buat template create_nft_entry.html untuk menampilkan form kepada pengguna. Saya juga menambahkan {% csrf_token %} di dalam form untuk memastikan keamanan form.
+
+## Pembuatan route JSON, dan XML
+Selanjutnya, saya menambahkan route untuk menampilkan data NFT dalam format JSON, XML dan juga diakses berdasarkan id (pk). Ini berguna jika kita ingin data NFT dapat diakses oleh aplikasi lain atau digunakan untuk API.
+Saya harus membuat fungsi untuk menampilakn data NFT di views.py. Berikut merupakan kodenya
+
+```
+from django.http import HttpResponse
+from django.core import serializers
+
+def show_xml(request):
+    data = NFT.objects.all()
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+def show_json(request):
+    data = NFT.objects.all()
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+
+def show_xml_by_id(request, id):
+    data = NFT.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
+def show_json_by_id(request, id):
+    data = NFT.objects.filter(pk=id)
+    return HttpResponse(serializers.serialize("json", data), content_type="application/json")
+```
+Penjelasan Kode
+show_xml: Fungsi ini mengambil semua objek NFT dari database dan mengembalikannya dalam format XML.
+show_json: Fungsi ini mirip dengan show_xml, tetapi mengembalikan data dalam format JSON.
+show_xml_by_id: Fungsi ini mengambil objek NFT dengan pk (primary key) tertentu dan mengembalikannya dalam format XML.
+show_json_by_id: Fungsi ini mengambil objek NFT dengan pk tertentu dan mengembalikannya dalam format JSON.
+
+Setelah menambahkan fungsinya, saya harus menambahakn url baru di urls.py agar route fungsinya dapat dipakai.
+Saya menambahkan kode berikut di `urls.py` dalam `main`
+```
+ path('xml/', show_xml, name='show_xml'),
+path('json/', show_json, name='show_json'),
+path('xml/<str:id>/', show_xml_by_token_id, name='show_xml_by_id'),
+path('json/<str:id>/', show_json_by_token_id, name='show_json_by_id'),
+```
+Keempat URL ini dapat diakses melalui postman maupun website biasa.
+Contoh:
+
+### `/xml`
+![image](https://github.com/user-attachments/assets/dbedc5e1-8ef6-40d2-98d4-f5239caf6833)
+### `/json`
+![image](https://github.com/user-attachments/assets/dbed5c9e-05a2-46d5-9283-8d211003628b)
+
+### `/json/<id>`
+![image](https://github.com/user-attachments/assets/ad2ab855-0fbe-480b-8395-284c38f8e462)
+
+### `/xml/<id>`
+![image](https://github.com/user-attachments/assets/e79ba938-3f2c-4360-a6b9-e6ac6edcf6b3)
+
