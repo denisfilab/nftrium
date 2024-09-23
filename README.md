@@ -355,16 +355,16 @@ Dengan syarat, perlu menulis urlpatterns dan metode get_absolute_url di class NF
 Dalam skenario ini, kita ingin menghubungkan model NFT dengan User sehingga setiap NFT yang dibuat oleh pengguna akan terkait dengan pengguna yang membuatnya. Pengguna hanya dapat membuat NFT jika mereka sudah login ke dalam sistem. Proses ini dapat dijelaskan melalui beberapa langkah berikut:
 
 1. Penambahan Field `user` di model NFT
-   Pada model NFT, kita menambahkan sebuah field baru yang disebut user_id. Field ini berfungsi sebagai relasi antara NFT dan pengguna yang membuatnya. Jadi, setiap NFT yang dibuat akan memiliki referensi kepada pengguna yang terautentikasi (user)
+   Pada model NFT, kita menambahkan sebuah field baru yang disebut user. Field ini berfungsi sebagai relasi antara NFT dan pengguna yang membuatnya. Jadi, setiap NFT yang dibuat akan memiliki referensi kepada pengguna yang terautentikasi (user)
 
 2. Pembuatan NFT jika sudah login
-   Pengguna hanya dapat membuat NFT setelah mereka login. Hal ini berarti, dalam konteks tugas, halaman pembuatan NFT tidak bisa diakses jika belum login. Dengan cara ini, pembuatan instances dari model (row di table) memastikan field user_id terisi.
+   Pengguna hanya dapat membuat NFT setelah mereka login. Hal ini berarti, dalam konteks tugas, halaman pembuatan NFT tidak bisa diakses jika belum login. Dengan cara ini, pembuatan instances dari model (row di table) memastikan field user terisi.
 
 Dengan cara ini, tiap NFT dapat diidentifikasi siapa yang membuat NFTnya karena terdapat reference di field user.
 
 ## Apa perbedaan antara authentication dan authorization, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
 
-Django menggunakan kombinasi session dan cookies untuk mengingat pengguna yang telah login. Ketika pengguna login, Django memverifikasi kredensial mereka, seperti username dan password. Jika valid, Django membuat sebuah session di server, yang menyimpan informasi penting terkait pengguna, misalnya user_id. Selanjutnya, Django menyimpan session ID ke dalam cookie yang dikirimkan ke browser pengguna. Cookie ini berfungsi sebagai pengidentifikasi unik untuk setiap pengguna. Pada permintaan HTTP berikutnya, browser secara otomatis mengirimkan session ID ini kembali ke server, yang memungkinkan Django untuk menghubungkan permintaan tersebut dengan session pengguna yang tersimpan. Dengan cara ini, pengguna tidak perlu login ulang pada setiap interaksi selama session mereka masih aktif.
+Django menggunakan kombinasi session dan cookies untuk mengingat pengguna yang telah login. Ketika pengguna login, Django memverifikasi kredensial mereka, seperti username dan password. Jika valid, Django membuat sebuah session di server, yang menyimpan informasi penting terkait pengguna, misalnya user. Selanjutnya, Django menyimpan session ID ke dalam cookie yang dikirimkan ke browser pengguna. Cookie ini berfungsi sebagai pengidentifikasi unik untuk setiap pengguna. Pada permintaan HTTP berikutnya, browser secara otomatis mengirimkan session ID ini kembali ke server, yang memungkinkan Django untuk menghubungkan permintaan tersebut dengan session pengguna yang tersimpan. Dengan cara ini, pengguna tidak perlu login ulang pada setiap interaksi selama session mereka masih aktif.
 
 ## Implementasi login, register, logout, dan hubungan model dengan user.
 
@@ -472,7 +472,7 @@ Pertama kita perlu import
 from django.contrib.auth.models import User
 ```
 
-Lalu kita perlu menambahkan field user_id di model NFT.
+Lalu kita perlu menambahkan field user di model NFT.
 Tambahkan field tersebut di dalam class NFT.
 
 ```
