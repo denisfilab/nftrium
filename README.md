@@ -6,6 +6,8 @@
 
 **http://daanish-inayat-nftriumm.pbp.cs.ui.ac.id/**
 
+# **Tugas 2**
+
 # Creating a new django project
 
 Sebelum saya membuat django project, saya harus membuat environment untuk python terlebih dahulu, hal tersebut bisa dilakukan dengan run kode tersebut di terminal
@@ -190,9 +192,11 @@ Dalam Django, **model** adalah representasi dari tabel di database. Setiap kelas
 # **Tugas 3**
 
 # Jelaskan mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
+
 _Data delivery_ adalah sebuah proses pengiriman data dari satu ke titik ke titik lain. Dalam konteks _web development_, data dikirim dari _client_ ke _server_ dan juga sebaliknya. Alasan mengapa _data delivery_ penting adalah karena _data delivery_ memungkinkan interaksi antara client dan server, yang merupakan inti dari aplikasi web dinamis. Website dinamis penting karena membuat website lebih interactive dan berguna untuk user. Tidak seperti static website yang menampilkan informasi yang sama ke setiap user, website dinamis dapat menampilkan informasi yang dipersonalisasi bergantung siapa yang menggunakan websitenya atau apa yang mereke lakukan
 
 # Menurutmu, mana yang lebih baik antara XML dan JSON? Mengapa JSON lebih populer dibandingkan XML?
+
 Saya pribadi hanya menggunakan JSON saat membangun aplikasi, contohnya dalam proyek Pokemon Card Generator yang saya buat. Menurut saya, menggunakan JSON terasa lebih intuitif karena penulisan kodenya lebih mudah dipahami. Penulisan JSON seperti menulis struktur data dalam bentuk dictionary atau hashmap. Contohnya, kita bisa langsung mengakses atribut-atribut dengan mudah melalui key, seperti `pokemon["name"]` atau `pokemon["abilities"]`. Sangat sederhana dan mirip seperti struktur data yang kita gunakan dalam banyak bahasa pemrograman. Inilah salah satu alasan mengapa JSON lebih populer dibandingkan XML, terutama dalam pengembangan web.
 
 Namun, dalam XML, kita membutuhkan metode tertentu untuk mengakses atau memanipulasi data. Misalnya, di JavaScript, kita harus menggunakan metode seperti `getElementsByTagName()` atau `getAttribute()` untuk mengambil nilai dari elemen XML. Hal ini membuat proses parsing data lebih rumit dibandingkan JSON, yang bisa langsung diakses dan diproses dengan metode standar.
@@ -205,24 +209,30 @@ Contoh pengalaman saya lain adalah ketika saya mencoba membuat anotasi video dea
     <box label="deadlifting" source="manual" xtl="211.70" ytl="522.62" xbr="458.80" ybr="943.84" />
 </image>
 ```
+
 Menurut saya, pemilihan antara JSON dan XML sangat bergantung pada use case. Dalam web development, JSON lebih populer karena lebih ringan, dan mudah dipahami. Sedangkan XML lebih cocok digunakan dalam kasus di mana kita membutuhkan struktur data yang lebih kompleks.
 
 # Jelaskan fungsi dari method is_valid() pada form Django dan mengapa kita membutuhkan method tersebut?
+
 Method is_valid() pada form di Django digunakan untuk memastikan bahwa data yang dikirimkan ke form sesuai dengan aturan validasi yang telah ditetapkan. Aturan validasi ini mencakup beberapa aspek penting,
+
 1. Tipe Data: Django memastikan tipe data yang dimasukkan seperti dengan definisi model yang ada
 2. Kelengkapan Field: Django memastikan semuma field yang ditandai sebagai wajib telah diisi oleh user
-Hal ini sangat penting untuk menjaga kualitas dan konsistensi pengguna, memastikan data yang dimasukkan ke database dalam format terstruktur. Tentunya hal ini akan memudahkan dalam pengembangan aplikasi.
+   Hal ini sangat penting untuk menjaga kualitas dan konsistensi pengguna, memastikan data yang dimasukkan ke database dalam format terstruktur. Tentunya hal ini akan memudahkan dalam pengembangan aplikasi.
 
 # Mengapa kita membutuhkan csrf_token saat membuat form di Django? Apa yang dapat terjadi jika kita tidak menambahkan csrf_token pada form Django? Bagaimana hal tersebut dapat dimanfaatkan oleh penyerang?
+
 CSRF token adalah nilai unik yang dihasilkan oleh server dan disematkan dalam setiap form di Django untuk melindungi aplikasi dari serangan **Cross-Site Request Forgery (CSRF)**. Kita membutuhkan csrf_token saat membuat form di Django agar memastikan bahwa setiap permintaan yang dikirim berasal dari pengguna yang sah dan bukan dari pihak ketiga yang berbahaya. Jika kita tidak menambahkan csrf_token pada form Django, aplikasi menjadi rentan terhadap serangan CSRF, di mana penyerang dapat memanfaatkan sesi pengguna yang aktif untuk menjalankan tindakan tanpa sepengetahuan atau persetujuan mereka, seperti mengubah data akun, melakukan transaksi finansial, atau mengubah pengaturan penting lainnya.
 
 # Penjelasan Kode
 
 ## Pembuatan Page Form
-Pertama, saya harus membuat file `forms.py` di directory `main`. Lalu saya membuat Class NFTForm dengan attribut `model = NFT` lalu untuk field, saya memasukkan field yang perlu diisi oleh user seperti `name`, `price`, `description` dst. 
+
+Pertama, saya harus membuat file `forms.py` di directory `main`. Lalu saya membuat Class NFTForm dengan attribut `model = NFT` lalu untuk field, saya memasukkan field yang perlu diisi oleh user seperti `name`, `price`, `description` dst.
 
 Setelah membuat forms.py dan mendefinisikan NFTForm, kita perlu menambahkan fungsi di views.py. File `views.py` dibutuhkan untuk menangani logika aplikasi, seperti menerima data dari form, memvalidasi data, menyimpan data ke database, dan mengembalikan respons yang sesuai kepada pengguna. Tanpa views.py, form yang kita buat tidak akan terhubung ke sistem dan tidak dapat memproses input dari user.
 Berikut adalah kode yang ditambahkan ke views.py:
+
 ```
 def create_nft_entry(request):
     if request.method == "POST":
@@ -236,15 +246,19 @@ def create_nft_entry(request):
     context = {'form': form}
     return render(request, "create_nft_entry.html", context)
 ```
+
 Saya menambahkan fungsi `redirect('main:show_main')` agar ketika berhasil submit suatu form, akan balik ke main untuk melihat hasilnya.
 
 Kemudian, tambahkan path baru di urls.py untuk menghubungkan URL ke fungsi view tersebut:
+
 ```
 path('create-nft-entry', create_nft_entry, name='create_nft_entry'),
 ```
+
 Selanjutnya, buat template create_nft_entry.html untuk menampilkan form kepada pengguna. Saya juga menambahkan {% csrf_token %} di dalam form untuk memastikan keamanan form.
 
 ## Pembuatan route JSON, dan XML
+
 Selanjutnya, saya menambahkan route untuk menampilkan data NFT dalam format JSON, XML dan juga diakses berdasarkan id (pk). Ini berguna jika kita ingin data NFT dapat diakses oleh aplikasi lain atau digunakan untuk API.
 Saya harus membuat fungsi untuk menampilakn data NFT di views.py. Berikut merupakan kodenya
 
@@ -268,6 +282,7 @@ def show_json_by_token_id(request, token_id):
     data = NFT.objects.filter(token_id=token_id)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 ```
+
 Penjelasan Kode
 show_xml: Fungsi ini mengambil semua objek NFT dari database dan mengembalikannya dalam format XML.
 show_json: Fungsi ini mirip dengan show_xml, tetapi mengembalikan data dalam format JSON.
@@ -276,24 +291,260 @@ show_json_by_token_id: Fungsi ini mengambil objek NFT dengan pk tertentu dan men
 
 Setelah menambahkan fungsinya, saya harus menambahakn url baru di urls.py agar route fungsinya dapat dipakai.
 Saya menambahkan kode berikut di `urls.py` dalam `main`
+
 ```
  path('xml/', show_xml, name='show_xml'),
 path('json/', show_json, name='show_json'),
 path('xml/<str:token_id>/', show_xml_by_token_id, name='show_xml_by_token_id'),
 path('json/<str:token_id>/', show_json_by_token_id, name='show_json_by_token_id'),
 ```
+
 Keempat URL ini dapat diakses melalui postman maupun website biasa.
 Contoh:
 
 ### `/xml`
+
 ![image](https://github.com/user-attachments/assets/dbedc5e1-8ef6-40d2-98d4-f5239caf6833)
+
 ### `/json`
+
 ![image](https://github.com/user-attachments/assets/dbed5c9e-05a2-46d5-9283-8d211003628b)
 
 ### `/json/<token_id>`
+
 ![image](https://github.com/user-attachments/assets/e754cfcc-95df-4986-aa0b-0891f91aaa15)
 
 ### `/xml/<token_id>`
+
 ![image](https://github.com/user-attachments/assets/2ccbe3bb-a527-49c3-a296-5bb8c857e98a)
 
+# **Tugas 4**
 
+## Apa perbedaan antara `HttpResponseRedirect()` dan `redirect()`
+
+Kedua fungsi tersebut berfungsi untuk men-direct user ke url baru, tetapi parameter kedua fungsi tersebut berbeda.
+
+Parameter yang dimasukkan fungsi `HttpResponseRedirect()` berupa URL string, nanti fungsi tersebut akan melakukan redirect sesuai parameter yang dimasukkan. Sedangkan parameter yang dimasukkan fungsi `redirect` bisa berbeda - beda. Pertama, di fungsi `redirect` kita bisa memasukkan attribut nama sesuai dengan urlPattern di urls.py
+
+Contoh:
+
+```
+path('create-nft-entry', create_nft_entry, name='create_nft_entry'),
+```
+
+maka fungsi redirect akan seperti
+
+```
+redirect('create_nft_entry')
+```
+
+Kedua, Anda juga bisa memasukkan sebuah objek model ke dalam `redirect()`. Django akan menggunakan metode `get_absolute_url()` dari objek tersebut untuk menentukan URL tujuan.
+
+Contoh:
+
+```
+def some_view(request):
+    nft = NFT.objects.get(id=1)
+    return redirect(nft)
+```
+
+Dengan syarat, perlu menulis urlpatterns dan metode get_absolute_url di class NFT tersebut. Nantinya, user akan didirect ke url sesuai dengan apa yang tertulis di urlpatterns
+
+## Jelaskan cara kerja penghubungan model NFT dengan User!
+
+Dalam skenario ini, kita ingin menghubungkan model NFT dengan User sehingga setiap NFT yang dibuat oleh pengguna akan terkait dengan pengguna yang membuatnya. Pengguna hanya dapat membuat NFT jika mereka sudah login ke dalam sistem. Proses ini dapat dijelaskan melalui beberapa langkah berikut:
+
+1. Penambahan Field `user` di model NFT
+   Pada model NFT, kita menambahkan sebuah field baru yang disebut user_id. Field ini berfungsi sebagai relasi antara NFT dan pengguna yang membuatnya. Jadi, setiap NFT yang dibuat akan memiliki referensi kepada pengguna yang terautentikasi (user)
+
+2. Pembuatan NFT jika sudah login
+   Pengguna hanya dapat membuat NFT setelah mereka login. Hal ini berarti, dalam konteks tugas, halaman pembuatan NFT tidak bisa diakses jika belum login. Dengan cara ini, pembuatan instances dari model (row di table) memastikan field user_id terisi.
+
+Dengan cara ini, tiap NFT dapat diidentifikasi siapa yang membuat NFTnya karena terdapat reference di field user.
+
+## Apa perbedaan antara authentication dan authorization, apakah yang dilakukan saat pengguna login? Jelaskan bagaimana Django mengimplementasikan kedua konsep tersebut.
+
+Django menggunakan kombinasi session dan cookies untuk mengingat pengguna yang telah login. Ketika pengguna login, Django memverifikasi kredensial mereka, seperti username dan password. Jika valid, Django membuat sebuah session di server, yang menyimpan informasi penting terkait pengguna, misalnya user_id. Selanjutnya, Django menyimpan session ID ke dalam cookie yang dikirimkan ke browser pengguna. Cookie ini berfungsi sebagai pengidentifikasi unik untuk setiap pengguna. Pada permintaan HTTP berikutnya, browser secara otomatis mengirimkan session ID ini kembali ke server, yang memungkinkan Django untuk menghubungkan permintaan tersebut dengan session pengguna yang tersimpan. Dengan cara ini, pengguna tidak perlu login ulang pada setiap interaksi selama session mereka masih aktif.
+
+## Implementasi login, register, logout, dan hubungan model dengan user.
+
+### Implementasi register
+
+Pertama kita perlu import
+
+```
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+```
+
+Import UserCreationForm memungkinkan kita untuk menggunakan form yang sudah ada untuk membuat sebuah form register untuk user baru. Lalu buat fungsi register di views.py
+
+```
+def register(request):
+    form = UserCreationForm()
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Akun Anda telah berhasil dibuat!')
+            return redirect('main:login')
+    context = {'form': form}
+    return render(request, 'register.html', context)
+```
+
+Lalu membuat path baru di urls.py,
+
+```
+path('register/', register, name='register'),
+```
+
+Tidak lupa membuat template register.html
+
+### Implementasi login
+
+Pertama kita perlu import
+
+```
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
+```
+
+Import AuthenticationForm memungkinkan kita untuk menggunakan form yang sudah ada untuk membuat sebuah form login untuk user. Impor authenticate dan login untuk memverifikasi user dan login user. Lalu kita lanjut dengan membuat fungsi login_user di views.py
+
+```
+def login_user(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            response = HttpResponseRedirect(reverse("main:show_main"))
+            return response
+
+    else:
+        form = AuthenticationForm(request)
+    context = {'form': form}
+    return render(request, 'login.html', context)
+```
+
+Tidak lupa membuat path baru di urls.py, dan membuat template login.html
+
+### Implementasi logout
+
+Pertama kita perlu import
+
+```
+from django.contrib.auth import logout
+```
+
+Lalu membuat fungsi logout_user di views.py
+
+```
+def logout_user(request):
+    logout(request)
+    response = HttpResponseRedirect(reverse('main:login'))
+    response.delete_cookie('last_login')
+    return response
+```
+
+Tidak lupa membuat path baru di urls.py,
+
+```
+path('logout/', logout_user, name='logout'),
+```
+
+Lalu tambahkan tombol logout di main.html dengan cara
+
+```
+<a href="{% url 'main:logout' %}">
+    <button>
+        Logout
+    </button>
+</a>
+```
+
+## Implementasi hubungan model dengan user
+
+Pertama kita perlu import
+
+```
+from django.contrib.auth.models import User
+```
+
+Lalu kita perlu menambahkan field user_id di model NFT.
+Tambahkan field tersebut di dalam class NFT.
+
+```
+user = models.ForeignKey(User, on_delete=models.CASCADE)
+```
+
+Lalu kita perlu mengubah fungsi create_nft_entry di views.py menjadi
+
+```
+def create_nft_entry(request):
+    if request.method == "POST":
+        form = NFTForm(request.POST, request.FILES)  # Include request.FILES
+        if form.is_valid():
+            nft = form.save(commit=False)
+            nft.user = request.user
+            nft.save()
+            return redirect('main:show_main')
+    else:
+        form = NFTForm()
+```
+
+Hal ini memastikan setiap NFT yang dibuat oleh user akan dikaitkan dengan user tersebut.
+
+Lalu saya juga perlu memastikan hanya bisa membuat NFT jika sudah login, dengan cara menambahkan
+
+```
+@login_required(login_url='/login')
+```
+
+di atas fungsi `show_main`. Dengan cara ini, user tidak bisa mengakses halaman utama dan halaman create NFT tanpa login terlebih dahulu sehingga memastikan setiap NFT yang dibuat akan dikaitkan dengan user tersebut.
+
+## Implementasi Cookies dan Last Login Information
+
+Pertama kita perlu import
+
+```
+import datetime
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+```
+
+Lalu kita perlu menambahkan cookies di fungsi `login_user` di `views.py` agar setiap login, datanya disimpan di cookies dan bisa diakses.
+
+```
+def login_user(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            response = HttpResponseRedirect(reverse("main:show_main")) # Tambahkan ini
+            response.set_cookie('last_login', str(datetime.datetime.now())) # Tambahkan ini
+            return response
+
+    else:
+        form = AuthenticationForm(request)
+    context = {'form': form}
+    return render(request, 'login.html', context)
+```
+
+Lalu di `show_main` kita perlu menambahkan cookies ke dalam context agar bisa ditampilkan di template.
+
+```
+def show_main(request):
+    context = {
+        'last_login': request.COOKIES.get('last_login')
+    }
+    return render(request, 'main.html', context)
+```
+
+Nanti di template `main.html` kita bisa menampilkan cookies tersebut dengan cara
+
+```
+<h3>Last Login: {{ last_login }}</h3>
+```

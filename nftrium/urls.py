@@ -16,19 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from main.views import show_main, nft_detail
 from django.conf.urls.static import static
 from django.conf import settings
-
-
-app_name = 'main'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('', show_main, name='show_main'),
-    path('nft/<int:nft_id>/', nft_detail, name='nft_detail'),
-    # static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 ]
 
 if settings.DEBUG:
