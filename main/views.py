@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import NFT
 from .forms import NFTForm
 from django.http import HttpResponse, HttpResponseRedirect
@@ -12,13 +12,26 @@ from django.urls import reverse
 
 @login_required(login_url='/login')
 def show_main(request):
+    images = [
+    {'path': 'image1.jpg', 'price': '36', 'name': 'Sigma'},  
+    {'path': 'image2.jpg', 'price': '5', 'name': 'Rain of Roses'},     
+    {'path': 'image3.jpg', 'price': '43', 'name': 'Noir Wanderer'},
+    {'path': 'image4.jpg', 'price': '69', 'name': 'Cosmic Leap'},  
+    {'path': 'image5.jpg', 'price': '83', 'name': 'Alchemist Haven'}, 
+    {'path': 'image6.jpg', 'price': '76', 'name': 'Luminous Dreamscape'},  
+    {'path': 'image7.jpg', 'price': '20', 'name': 'Australian Koal'},    
+    {'path': 'image8.jpg', 'price': '68', 'name': 'Luminous Dreamscape'},     
+    ]
     nfts = NFT.objects.filter(user=request.user)
     context = {
         'user': request.user,
         'nfts': nfts,
         'last_login': request.COOKIES['last_login'],
+        'images': images,
     }
-    return render(request, "main.html", context) 
+    return render(request, "main.html", context)
+
+
 
 def nft_detail(request, nft_id):
     nft = NFT.objects.get(id=nft_id)
@@ -91,3 +104,31 @@ def logout_user(request):
     response = HttpResponseRedirect(reverse('main:login'))
     response.delete_cookie('last_login')
     return response
+
+@login_required(login_url='/login')
+def edit_nft_entry(request, nft_id):
+    nft = NFT.objects.get(id=nft_id, user=request.user)
+    
+    if request.method == "POST":
+        form = NFTForm(request.POST, request.FILES, instance=nft)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'NFT Anda telah berhasil diperbarui!')
+            return redirect('main:show_main')
+    else:
+        form = NFTForm(instance=nft)
+    
+    context = {'form': form, 'nft': nft}
+    return render(request, "edit_nft_entry.html", context)
+
+@login_required(login_url='/login')
+def delete_nft_entry(request, nft_id):
+    nft = get_object_or_404(NFT, id=nft_id, user=request.user)
+    
+    if request.method == "POST":
+        nft.delete()
+        messages.success(request, 'NFT Anda telah berhasil dihapus!')
+        return redirect('main:show_main')
+    
+    # Tidak perlu render halaman delete karena menggunakan modal
+    return redirect('main:show_main')

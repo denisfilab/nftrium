@@ -1,5 +1,5 @@
 from django.urls import path
-from main.views import logout_user, show_main, create_nft_entry, nft_detail, show_xml, show_json, show_xml_by_token_id, show_json_by_token_id, register, login_user
+from main.views import delete_nft_entry, edit_nft_entry, logout_user, show_main, create_nft_entry, nft_detail, show_xml, show_json, show_xml_by_token_id, show_json_by_token_id, register, login_user
 
 app_name = 'main'
 
@@ -14,5 +14,7 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
+    path('edit-nft/<int:nft_id>/', edit_nft_entry, name='edit_nft_entry'),
+    path('delete-nft/<int:nft_id>/', delete_nft_entry, name='delete_nft_entry'),
 ]
 
