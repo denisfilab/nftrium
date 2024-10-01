@@ -2,7 +2,7 @@ from fractions import Fraction
 from typing import Tuple
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import NFT
-from .forms import NFTForm
+from .forms import CustomAuthenticationForm, CustomUserCreationForm, NFTForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core import serializers
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -81,6 +81,7 @@ def find_closest_aspect_ratio(width: int, height: int) -> Tuple[int, int]:
     closest_ratio = min(aspect_ratios, key=ratio_difference)
     return closest_ratio
 
+@login_required
 def nft_detail(request, nft_id):
     # Retrieve the NFT object or return a 404 if not found
     nft = get_object_or_404(NFT, id=nft_id)
@@ -91,6 +92,7 @@ def nft_detail(request, nft_id):
 
     return render(request, 'nftcard.html', context)
 
+@login_required
 def create_nft_entry(request):
     if request.method == "POST":
         form = NFTForm(request.POST, request.FILES)  # Include request.FILES
@@ -126,30 +128,30 @@ def show_json_by_token_id(request, token_id):
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 def register(request):
-    form = UserCreationForm()
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Your account has been successfully created!')
             return redirect('main:login')
-
-    context = {'form':form}
+        else:
+            messages.error(request, 'Please fill the field correctly')
+    else:
+        form = CustomUserCreationForm()
+    context = {'form': form}
     return render(request, 'register.html', context)
-
 
 def login_user(request):
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+        form = CustomAuthenticationForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            response = HttpResponseRedirect(reverse("main:show_main"))
+            response = redirect('main:show_main')
             response.set_cookie('last_login', str(datetime.datetime.now()))
             return response
     else:
-        form = AuthenticationForm()
-    
+        form = CustomAuthenticationForm()
     context = {'form': form}
     return render(request, 'login.html', context)
 
