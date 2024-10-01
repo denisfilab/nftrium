@@ -184,7 +184,6 @@ def delete_nft_entry(request, nft_id):
         messages.success(request, 'NFT Anda telah berhasil dihapus!')
         return redirect('main:show_main')
     
-    # Tidak perlu render halaman delete karena menggunakan modal
     return redirect('main:show_main')
 
 # New UI Views
@@ -192,7 +191,6 @@ def delete_nft_entry(request, nft_id):
 def view_json_ui(request):
     nfts = NFT.objects.all()
     data = serializers.serialize('json', nfts)
-    # Optionally, format JSON with indentation
     parsed = json.loads(data)
     formatted_json = json.dumps(parsed, indent=4)
     context = {
@@ -200,19 +198,16 @@ def view_json_ui(request):
     }
     return render(request, 'view_json.html', context)
 
+# Somehow masi error, returnnya value dari xml aja, g ada teksnys
 @login_required(login_url='/login')
 def view_xml_ui(request):
-    # Fetch all NFTs
     nfts = NFT.objects.all()
     
-    # Serialize data into XML format
     data = serializers.serialize('xml', nfts)
     
-    # Prettify the XML (optional)
     parsed_xml = xml.dom.minidom.parseString(data)
     pretty_xml = parsed_xml.toprettyxml(indent="  ")
     context = {
         'pretty_xml': pretty_xml
     }
-    # Return XML as a response with the correct content-type
     return render(request, 'view_xml.html', context)
