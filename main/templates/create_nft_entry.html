@@ -1,14 +1,16 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+
+{% block content %}
 
 <div class="max-w-2xl mx-auto py-10">
-	<h1 class="text-4xl font-bold mb-8 text-center text-indigo-600">
+	<h1 class="text-4xl font-bold mb-8 text-center text-indigo-700">
 		Create Your NFT
 	</h1>
 
 	<form
 		method="POST"
 		enctype="multipart/form-data"
-		class="space-y-6 bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4"
+		class="space-y-6 bg-gray-800 shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 text-white"
 	>
 		{% csrf_token %} {{ form.as_p }}
 		<div class="flex items-center justify-center">
@@ -21,10 +23,22 @@
 			</button>
 		</div>
 	</form>
-	<div></div>
-	<p><span></span></p>
-	<h1></h1>
-	<h2></h2>
+	
+	<!-- Optional: Display form errors -->
+	{% if form.errors %}
+		<div class="bg-red-500 text-white p-4 rounded">
+			<ul>
+				{% for field in form %}
+					{% for error in field.errors %}
+						<li>{{ error }}</li>
+					{% endfor %}
+				{% endfor %}
+				{% for error in form.non_field_errors %}
+					<li>{{ error }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	{% endif %}
 </div>
 
 {% endblock %}

@@ -1,0 +1,12 @@
+<!-- nftrium/main/templates/view_json.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto p-8">
+    <h1 class="text-2xl font-bold mb-4 text-white">NFTs in JSON Format</h1>
+    <pre class="bg-gray-800 p-4 rounded-lg overflow-auto language-json">
+{{ formatted_json|safe }}
+    </pre>
+</div>
+{% endblock content %}

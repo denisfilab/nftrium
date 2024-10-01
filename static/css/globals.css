@@ -1,0 +1,113 @@
+/* Carousel Section */
+#carousel-section {
+    position: relative;
+}
+
+/* Carousel Backgrounds */
+#carousel-backgrounds {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    transition: transform 0.5s ease;
+    z-index: 0;
+}
+#carousel-backgrounds > div {
+    min-width: 100%;
+}
+#carousel-backgrounds .bg-cover {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Gradient Overlaysssss */
+.gradient-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 4, 15, 1), rgba(255, 255, 255, 0.2));
+    z-index: 10;
+    pointer-events: none;
+}
+
+/* Carousel */
+#carousel {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+.carousel-item {
+    flex: 0 0 100%;
+    padding: 0 10px; 
+}
+#carousel img {
+    width: 450px;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 0.5rem; 
+}
+
+/* Responsive Carousel Items */
+@media (min-width: 640px) { 
+    .carousel-item {
+        flex: 0 0 50%; 
+    }
+}
+@media (min-width: 768px) {
+    .carousel-item {
+        flex: 0 0 33.3333%; 
+    }
+}
+@media (min-width: 1024px) {
+    .carousel-item {
+        flex: 0 0 25%; 
+    }
+}
+
+/* Navigation Buttons */
+#prev-btn, #next-btn {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+/* buttons */
+@media (max-width: 640px) {
+    #prev-btn, #next-btn {
+        top: auto;
+        bottom: 10px;
+        left: 20px;
+        right: 20px;
+        width: 40px;
+        height: 40px;
+    }
+}
+
+.bg-gradient {
+	background: radial-gradient(circle at center, #00040F, #1E1E1E);
+	transition: background 0.5s ease;
+}
+
+#prev-btn, #next-btn {
+    z-index: 30;
+}
+
+#prev-btn:hover, #next-btn:hover {
+    background-opacity: 0.75;
+}
+
+.bg-black-gradient-2 {
+	background: linear-gradient(
+		-168.39deg,
+		#ffffff -278.56%,
+		#6d6d6d -78.47%,
+		#11101d 91.61%
+	);
+}
+
+.shadow-bottom-lift {
+    box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+

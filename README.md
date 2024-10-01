@@ -548,3 +548,226 @@ Nanti di template `main.html` kita bisa menampilkan cookies tersebut dengan cara
 ```
 <h3>Last Login: {{ last_login }}</h3>
 ```
+
+# **Tugas 5**
+
+## Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+Urutan prioritas atau Specificity dalam pengambilan CSS selector ditentukan berdasarkan beberapa faktor. Berikut adalah urutan prioritasnya dari yang tertinggi hingga terendah:
+1. Inline CSS (misalnya, yang diterapkan langsung pada elemen HTML menggunakan atribut style).
+2. ID Selector (menggunakan tanda # diikuti oleh nama ID, misalnya #header).
+3. Class Selector, Pseudo-class, dan Attribute Selector (misalnya .container, :hover, atau [type="text"]).
+4. Element Selector dan Pseudo-element (misalnya div, h1, atau ::before).
+5. Universal Selector (*) dan Inherited Selector (tidak memiliki nilai spesifik).
+
+Jika terdapat beberapa CSS selector untuk suatu elemen HTML, maka CSS selector dengan Specificity yang lebih tinggi akan memiliki prioritas lebih tinggi dan akan diterapkan pada elemen tersebut.
+
+## Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design!
+Menurut saya, responsiveness dalam sebuah design website sangat penting karena seorang user yang mengakses website bisa berasal dari berbagai perangkat, seperti desktop, laptop, tablet, atau smartphone. Dengan responsive design, website akan menyesuaikan tampilannya agar tetap terlihat baik dan berfungsi dengan baik di berbagai perangkat tersebut. Hal ini meningkatkan pengalaman pengguna dan memastikan website tetap dapat diakses dengan baik oleh semua pengguna, tanpa peduli perangkat apa yang mereka gunakan. Contohnya website yang belum menerapkan responsive design adalah website siak milik Universitas Indonesia. Pengalaman saya membuka website siak di perangkat hp sangat tidak menyenangkan, tulisa yang terlalu kecil, dan tidak bisa di zoom. Contoh website yang sudah menerapkan responsive design adalah website `apple.com`. Website tersebut menyesuaikan tampilannya dengan baik di berbagai perangkat, mulai dari desktop hingga smartphone.
+
+## Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+1. **Margin** adalah ruang di luar batas elemen yang digunakan untuk memberikan jarak antara elemen satu dengan elemen lainnya di halaman web. Margin tidak memiliki warna atau background, hanya berupa ruang kosong yang memberi jarak.
+
+Kita bisa mengatur margin secara spesifik pada setiap sisi elemen: top (atas), right (kanan), bottom (bawah), dan left (kiri). Untuk mengimplementasikannya, CSS menyediakan beberapa cara dalam mendefinisikan margin:
+```css
+/* Margin pada setiap sisi elemen */
+margin-top: 10px;    /* Margin atas */
+margin-right: 20px;  /* Margin kanan */
+margin-bottom: 30px; /* Margin bawah */
+margin-left: 40px;   /* Margin kiri */
+```
+
+2. **Border**: Border adalah garis yang mengelilingi elemen. Border digunakan untuk memberikan garis pembatas pada elemen. Border memiliki ketebalan, warna, dan jenis (solid, dashed, dotted, double, dll.). Untuk mengimplementasikan border, kita bisa menggunakan properti CSS `border` dengan nilai ketebalan, warna, dan jenis.
+```css
+/* Border pada setiap sisi elemen */
+border: 1px solid black; /* Border dengan ketebalan 1px, jenis solid, dan warna hitam */
+
+/* Border spesifik pada setiap sisi elemen */
+border-top: 2px dashed red;    /* Border atas dengan ketebalan 2px, jenis dashed, dan warna merah */
+border-right: 3px dotted blue; /* Border kanan dengan ketebalan 3px, jenis dotted, dan warna biru */
+border-bottom: 4px double green; /* Border bawah dengan ketebalan 4px, jenis double, dan warna hijau */
+border-left: 5px solid purple; /* Border kiri dengan ketebalan 5px, jenis solid, dan warna ungu */
+```
+
+3. **Padding**: Padding adalah ruang di dalam batas elemen dan border. Padding digunakan untuk memberikan jarak antara konten elemen dengan border. Padding tidak memiliki warna atau background, hanya berupa ruang kosong. Untuk mengimplementasikan padding, kita bisa menggunakan properti CSS `padding` dengan nilai dalam satuan px, em, atau %.
+```css
+/* Padding pada setiap sisi elemen */
+padding: 10px 20px 30px 40px; /* Padding atas 10px, kanan 20px, bawah 30px, kiri 40px */
+
+/* Padding spesifik pada setiap sisi elemen */
+padding-top: 10px;    /* Padding atas */
+padding-right: 20px;  /* Padding kanan */
+padding-bottom: 30px; /* Padding bawah */
+padding-left: 40px;   /* Padding kiri */
+```
+
+Berikut merupakan ilustrasi dari border, padding dan margin.
+![alt text](https://www.avajava.com/tutorials/cascading-style-sheets/how-are-margins-borders-padding-and-content-related/how-are-margins-borders-padding-and-content-related-01.gif)
+
+## Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+1. Flexbox (Flexible Box Layout)
+Flexbox adalah modul CSS yang dirancang untuk menyusun elemen dalam satu dimensi—baik dalam baris (horizontal) maupun kolom (vertikal). Flexbox memungkinkan distribusi ruang di antara elemen dan kemampuan untuk mengatur ukuran serta posisi elemen secara fleksibel, sehingga sangat ideal untuk tata letak responsif.
+Jadi, di flexbox terdapat yang namanya main axis dan cross axis. Main axis adalah arah utama dari flex container, sedangkan cross axis adalah arah yang tegak lurus terhadap main axis. Hal ini bisa dilihat dari styling flex-direction. Jika flex-direction: row, maka main axis adalah horizontal, sedangkan jika flex-direction: column, maka main axis adalah vertical. 
+
+Kegunaan Flexbox:
+- Menyusun elemen dalam satu baris atau kolom.
+- Mengatur perataan (alignment) elemen secara vertikal atau horizontal.
+- Mengontrol distribusi ruang antar elemen, termasuk fleksibilitas ukuran elemen.
+- Mengelola urutan elemen tanpa mengubah urutan HTML.
+
+Contoh Penggunaan Flexbox:
+a. Menyusun Elemen dalam Satu Baris dengan Center Alignment
+```html
+<div class="flex-container">
+  <div class="flex-item">Item 1</div>
+  <div class="flex-item">Item 2</div>
+  <div class="flex-item">Item 3</div>
+</div>
+```
+```css
+.flex-container {
+  display: flex;
+  justify-content: center; /* Mengatur perataan horizontal */
+  align-items: center;    /* Mengatur perataan vertikal */
+  height: 200px;
+  background-color: #f0f0f0;
+}
+
+.flex-item {
+  background-color: #4CAF50;
+  color: white;
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+}
+```
+
+2. Grid Layout
+Grid Layout adalah modul CSS yang memungkinkan pembuatan tata letak dua dimensi—baik dalam baris maupun kolom. Grid Layout sangat cocok untuk membuat layout yang lebih kompleks, seperti dashboard, layout majalah, atau galeri foto, di mana kontrol atas kedua dimensi diperlukan.
+Kegunaan Grid Layout:
+- Membuat layout dua dimensi (baris dan kolom) secara simultan.
+- Mengatur ukuran dan posisi elemen dengan presisi.
+- Membuat grid responsif yang dapat beradaptasi dengan berbagai ukuran layar.
+- Memudahkan pembuatan layout kompleks tanpa harus menggunakan banyak elemen nested.
+
+Contoh Penggunaan Grid Layout:
+a. Membuat Grid Container dan Menyusun Elemen dalam Grid dengan 3x3
+```html
+<div class="grid-container">
+  <div class="grid-item">1</div>
+  <div class="grid-item">2</div>
+  <div class="grid-item">3</div>
+  <div class="grid-item">4</div>
+  <div class="grid-item">5</div>
+  <div class="grid-item">6</div>
+  <div class="grid-item">7</div>
+  <div class="grid-item">8</div>
+  <div class="grid-item">9</div>
+</div>
+```
+```css
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  background-color: #2196F3;
+  padding: 10px;
+}
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+```
+Nanti tampilannya akan seperti ini
+Image
+
+## Implementasi UI Login, Register, Navbar, dan NFT
+
+### Implementasi UI Login dan Register
+Untuk parent containernya, memiliki style
+```html
+<div class="flex items-center justify-center min-h-screen bg-[#00040F]">
+```
+Lalu terdapat container untuk form login dan register
+```html
+<div class="w-full max-w-md bg-gray-800 rounded-lg shadow-md p-8">
+```
+Dengan cara parent container memiliki style seperti flex, items-center, dan justify-center, maka form login dan register akan berada di tengah layar.
+Lalu tinggal implementasi theme color dan style untuk field input, button, dan lainnya.
+
+
+### Implementasi Navbar
+Navbar memiliki konsep dan styling seperti berikut
+```html
+    <nav class="bg-gray-900 shadow-md">	
+    	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+			<div class="flex justify-between h-16">
+                <links>
+                </links>
+                <auth>
+            </div>
+        </div>
+    </nav>
+```
+Parent container dari navbar memiliki style seperti bg-gray-900 dan shadow-md. Parent container ini akan memiliki width screen dan height dari childnya. Lalu terdapat child container dengan style `max-w-7xl`, hal ini membuat sebuah container yang dengan panjang lebih kecil dari parent containernya dan berada di tengah parent container karena ada styling `mx-auto`. Lalu terdapat flex justify-between, hal ini membuat child container di dalamnya akan berada di sisi kiri dan kanan. Dalam konteks ini, justify-between akan membuat link berada di sisi kiri dan auth di sisi kanan.
+
+Untuk implementasi navbar, terdapat dua versi: desktop dan mobile. 
+- **Navbar Desktop**: Disembunyikan di mobile. Muncul jika lebar layar >= 640px.
+- **Navbar Mobile**: Disembunyikan di desktop. Muncul jika lebar layar < 640px.
+
+Styling `hidden` digunakan untuk menyembunyikan elemen yang tidak sesuai dengan width screen.
+
+Perbedaan utamanya adalah penggunaan flex-col dan flex-row.
+
+- Desktop: Links dan auth menggunakan flex-row, artinya elemen disusun secara horizontal.
+- Mobile: Links dan auth menggunakan flex-col, artinya elemen disusun secara vertikal. Menu akan muncul jika tombol hamburger diklik, yang diatur dengan JavaScript.
+```javascript
+function toggleMobileMenu() {
+    const menu = document.getElementById("mobile-menu");
+    const buttons = document.querySelectorAll('nav button[type="button"] svg');
+
+    if (menu.classList.contains("hidden")) {
+        menu.classList.remove("hidden");
+        // Tampilkan ikon close
+        buttons[0].classList.add("hidden");
+        buttons[1].classList.remove("hidden");
+    } else {
+        menu.classList.add("hidden");
+        // Tampilkan ikon hamburger
+        buttons[0].classList.remove("hidden");
+        buttons[1].classList.add("hidden");
+    }
+}
+```
+Function di atas akan menampilkan menu mobile jika tombol hamburger diklik, dan menyembunyikan menu mobile jika tombol close diklik dengan cara menambahkan style hidden dan remove style hidden.
+
+
+### Implementasi NFT
+Untuk implementasi NFT, kita bisa menggunakan grid layout untuk menampilkan NFT dalam grid. Berikut adalah kodenya, saya menggunakan breakpoint dari tailwindcss untuk membuat grid responsive. Bergantung terhadap ukuran layar, jumlah kolom dalam grid akan berubah.
+```html
+<div class="container mx-auto px-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-cols-auto">
+        {% for nft in nfts %}
+            {% include 'components/nftcard.html' with nft=nft %}
+        {% empty %}
+        <p class="text-center text-gray-50  0 col-span-full">
+            No NFTs available at the moment.
+        </p>
+        {% endfor %}
+    </div>
+</div>
+```
+Saya juga menambahkan lift-off effect ketika suatu nft di hover. Berikut adalah kodenya
+```html
+{% load static %}
+<div
+  class="max-w-md rounded-lg overflow-hidden shadow-lg transform transition-transform hover:-translate-y-2 flex flex-col ease-in-out duration-300 h-fit"
+  style="box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);"
+  onmouseover="this.style.boxShadow='0 0 20px 0 rgba(255, 255, 255, 0.5), 0 6px 10px -2px rgba(255, 255, 255, 0.5)';"
+  onmouseout="this.style.boxShadow='0 8px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';"
+>
+```
+Ketika suatu nft di hover, maka akan terjadi perubahan style box-shadow.
+
+Untuk implementasi edit dan delete, saya menambahkan container di bawah nftcard yang berisi tombol edit dan delete. Ketika tombol edit diklik, maka akan diarahkan ke halaman edit nft. Ketika tombol delete diklik, maka akan muncul modal konfirmasi delete.

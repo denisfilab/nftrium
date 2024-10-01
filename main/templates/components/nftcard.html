@@ -1,70 +1,82 @@
+{% load static %}
 <div
-	class="max-w-xs rounded-lg overflow-hidden shadow-lg bg-white transform transition-transform duration-75 hover:scale-105"
+  class="max-w-md rounded-lg overflow-hidden shadow-lg transform transition-transform hover:-translate-y-2 flex flex-col ease-in-out duration-300 h-fit"
+  style="box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);"
+  onmouseover="this.style.boxShadow='0 0 20px 0 rgba(255, 255, 255, 0.5), 0 6px 10px -2px rgba(255, 255, 255, 0.5)';"
+  onmouseout="this.style.boxShadow='0 8px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';"
 >
-	<div class="h-auto">
-		<img
-			class="w-full object-contain"
-			src="{{ nft.image.url }}"
-			alt="{{ nft.name }}"
-		/>
-	</div>
-	<div class="px-6 py-4">
-		<div class="font-bold text-xl mb-2">
-			<h2>{{ nft.name }}</h2>
-		</div>
-		<p class="text-gray-700 text-base">{{ nft.price }} ETH</p>
-		<p class="text-gray-500 text-sm">Created by: {{ nft.creator }}</p>
-		<p class="text-gray-500 text-xs">Token ID: {{ nft.token_id }}</p>
-	</div>
-	<div class="px-6 py-4 flex justify-between">
-		<a
-			href="{% url 'main:edit_nft_entry' nft.id %}"
-			class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded"
-		>
-			Edit
-		</a>
-		<!-- Tombol Delete yang Memicu Modal -->
-		<button
-			class="bg-red-500 hover:bg-red-600 text-white py-1 px-3 rounded"
-			onclick="openModal('modal-delete-{{ nft.id }}')"
-		>
-			Delete
-		</button>
-	</div>
+  <div class="relative w-full">
+    <img
+      class="w-full h-auto object-cover"
+      src="{{ nft.image.url }}"
+      alt="{{ nft.name }}"
+    />
 
-	<!-- Modal Konfirmasi Hapus -->
-	<div
-		id="modal-delete-{{ nft.id }}"
-		class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden rounded-lg"
-	>
-		<div class="bg-white rounded-lg shadow-lg w-11/12 md:max-w-md">
-			<div class="px-6 py-4">
-				<h2 class="text-xl font-bold mb-4">Konfirmasi Hapus</h2>
-				<p class="text-gray-700">
-					Apakah Anda yakin ingin menghapus NFT
-					<strong>{{ nft.name }}</strong>?
-				</p>
-			</div>
-			<div class="px-6 py-4 flex justify-end space-x-4">
-				<button
-					class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded"
-					onclick="closeModal('modal-delete-{{ nft.id }}')"
-				>
-					Batal
-				</button>
-				<form
-					method="POST"
-					action="{% url 'main:delete_nft_entry' nft.id %}"
-				>
-					{% csrf_token %}
-					<button
-						type="submit"
-						class="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
-					>
-						Hapus
-					</button>
-				</form>
-			</div>
-		</div>
-	</div>
+    <div
+      class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end items-start text-white text-center p-4 pb-16"
+    >
+      <h2 class="text-2xl font-bold">{{ nft.name }}</h2>
+      <p class="text-lg">{{ nft.price }} ETH</p>
+      <p class="text-sm">Created by: {{ nft.creator }}</p>
+    </div>
+    
+    <div
+      class="bottom-0 w-full flex justify-between px-4 py-2 rounded-b-lg "
+      style="background: linear-gradient(
+        -168.39deg,
+        #ffffff -278.56%,
+        #6d6d6d -78.47%,
+        #11101d 91.61%
+      );"
+    >
+      <a
+        href="{% url 'main:edit_nft_entry' nft.id %}"
+        class="bg-gray-800 hover:bg-gray-700 text-white py-1 px-3 rounded z-10"
+      >
+        Edit
+      </a>
+      
+      <button
+        class="border-red-700 border-[3px] text-red-700 hover:bg-red-700 hover:text-white py-1 px-3 rounded z-10"
+        onclick="openModal('modal-delete-{{ nft.id }}')"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="modal-delete-{{ nft.id }}"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden rounded-lg"
+  >
+    <div class="bg-gray-900 rounded-lg shadow-lg w-11/12 md:max-w-md">
+      <div class="px-6 py-4">
+        <h2 class="text-xl font-bold mb-4 text-white">Confirm Delete</h2>
+        <p class="text-gray-300">
+          Are you sure you want to delete NFT
+          <strong>{{ nft.name }}</strong>?
+        </p>
+      </div>
+      <div class="px-6 py-4 flex justify-end space-x-4">
+        <button
+        class="bg-gray-800 hover:bg-gray-700 text-white py-1 px-3 rounded z-10"
+          onclick="closeModal('modal-delete-{{ nft.id }}')"
+        >
+          Cancel
+        </button>
+        <form
+          method="POST"
+          action="{% url 'main:delete_nft_entry' nft.id %}"
+        >
+          {% csrf_token %}
+          <button
+            type="submit"
+            class="border-red-700 border-[3px] text-red-700 hover:bg-red-700 hover:text-white py-1 px-3 rounded z-10"
+            >
+            Delete
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
