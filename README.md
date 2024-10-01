@@ -601,7 +601,7 @@ padding-left: 40px;   /* Padding kiri */
 ```
 
 Berikut merupakan ilustrasi dari border, padding dan margin.
-![alt text](https://www.avajava.com/tutorials/cascading-style-sheets/how-are-margins-borders-padding-and-content-related/how-are-margins-borders-padding-and-content-related-01.gif)
+![image](https://www.avajava.com/tutorials/cascading-style-sheets/how-are-margins-borders-padding-and-content-related/how-are-margins-borders-padding-and-content-related-01.gif)
 
 ## Jelaskan konsep flex box dan grid layout beserta kegunaannya!
 1. Flexbox (Flexible Box Layout)
@@ -680,7 +680,8 @@ a. Membuat Grid Container dan Menyusun Elemen dalam Grid dengan 3x3
 }
 ```
 Nanti tampilannya akan seperti ini
-Image
+![image](https://github.com/user-attachments/assets/4a707a8f-ed0c-42bf-a805-7af7de895026)
+
 
 ## Implementasi UI Login, Register, Navbar, dan NFT
 
