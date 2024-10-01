@@ -20,14 +20,14 @@ import xml.dom.minidom
 @login_required(login_url='/login')
 def show_main(request):
     images = [
-        {'path': 'image1.jpg', 'price': '36', 'name': 'Sigma'},  
-        {'path': 'image2.jpg', 'price': '5', 'name': 'Rain of Roses'},     
-        {'path': 'image3.jpg', 'price': '43', 'name': 'Noir Wanderer'},
-        {'path': 'image4.jpg', 'price': '69', 'name': 'Cosmic Leap'},  
-        {'path': 'image5.jpg', 'price': '83', 'name': 'Alchemist Haven'}, 
-        {'path': 'image6.jpg', 'price': '76', 'name': 'Luminous Dreamscape'},  
-        {'path': 'image7.jpg', 'price': '20', 'name': 'Australian Koal'},    
-        {'path': 'image8.jpg', 'price': '68', 'name': 'Luminous Dreamscape'},     
+        {'path': 'https://i.ibb.co.com/r37Bpxy/image1.png', 'price': '36', 'name': 'Sigma'},  
+        {'path': 'https://i.ibb.co.com/1ZYsnYS/image2.jpg', 'price': '5', 'name': 'Rain of Roses'},     
+        {'path': 'https://i.ibb.co.com/Z11NN8t/image3.jpg', 'price': '43', 'name': 'Noir Wanderer'},
+        {'path': 'https://i.ibb.co.com/yYWc0Ww/image4.jpg', 'price': '69', 'name': 'Cosmic Leap'},  
+        {'path': 'https://i.ibb.co.com/b2741sw/image5.png', 'price': '83', 'name': 'Alchemist Haven'}, 
+        {'path': 'https://i.ibb.co.com/FhHSS43/image6.jpg', 'price': '76', 'name': 'Luminous Dreamscape'},  
+        {'path': 'https://i.ibb.co.com/26MSNY0/image7.png', 'price': '20', 'name': 'Australian Koal'},    
+        {'path': 'https://i.ibb.co.com/fXKh3gz/image8.png', 'price': '68', 'name': 'Luminous Dreamscape'},     
     ]
     
     nfts = NFT.objects.filter(user=request.user)
