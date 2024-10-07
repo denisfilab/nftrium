@@ -771,3 +771,185 @@ Saya juga menambahkan lift-off effect ketika suatu nft di hover. Berikut adalah 
 Ketika suatu nft di hover, maka akan terjadi perubahan style box-shadow.
 
 Untuk implementasi edit dan delete, saya menambahkan container di bawah nftcard yang berisi tombol edit dan delete. Ketika tombol edit diklik, maka akan diarahkan ke halaman edit nft. Ketika tombol delete diklik, maka akan muncul modal konfirmasi delete.
+
+# **Tugas 6**
+
+## Jelaskan manfaat dari penggunaan JavaScript dalam pengembangan aplikasi web!
+Javascript berguna dalam pengembangan aplikasi web karena memungkinkan kita untuk membuat website yang lebih interaktif dan dinamis. Misalnya, kita bisa membuat elemen muncul atau hilang, mengubah warna elemen, menampilkan pesan popup, atau mengirim data ke server tanpa perlu me-refresh halaman berdasarkan user activity atau event listener. Tidak hanya itu, dengan Javascript kita bisa membuat website yang lebih responsif dan user-friendly, seperti validasi form, autocomplete, infinite scroll, dan lainnya. Dengan kata lain, Javascript memungkinkan kita untuk membuat website yang lebih menarik, interaktif, dan user-friendly.
+
+
+## Jelaskan fungsi dari penggunaan await ketika kita menggunakan fetch()! Apa yang akan terjadi jika kita tidak menggunakan await?
+`await` digunakan untuk menunggu hasil dari suatu operasi asynchronous, seperti fetch() yang mengambil data dari server. Ketika kita menggunakan fetch() tanpa await, maka fetch() akan mengembalikan Promise yang belum selesai. Dengan menggunakan await, kita menunggu fetch() selesai dan mengembalikan data yang diambil dari server. Jika kita tidak menggunakan await, maka kode selanjutnya akan dieksekusi sebelum fetch() selesai, yang berpotensi menyebabkan error atau data yang tidak lengkap.
+
+## Mengapa kita perlu menggunakan decorator csrf_exempt pada view yang akan digunakan untuk AJAX POST?
+Django menggunakan mekanisme CSRF (Cross-Site Request Forgery) untuk melindungi website dari serangan CSRF. Saat menggunakan AJAX, kita perlu menonaktifkan CSRF protection untuk view yang digunakan untuk AJAX POST karena browser akan memblokir request POST yang tidak memiliki CSRF token. Dengan menggunakan decorator `@csrf_exempt`, kita memberitahu Django untuk tidak memeriksa CSRF token pada view tersebut sehingga request POST dari AJAX akan berhasil dilakukan tanpa error. Namun, perlu diingat bahwa AJAX bukanlah pengecualian dari aturan CSRF protection sehingga perlu hati-hati dalam menggunakan `@csrf_exempt`. Menggunakan @csrf_exempt pada view yang menangani **AJAX POST bukanlah solusi yang ideal** karena hal ini akan mematikan proteksi CSRF secara keseluruhan pada view tersebut
+
+## Pada tutorial PBP minggu ini, pembersihan data input pengguna dilakukan di belakang (backend) juga. Mengapa hal tersebut tidak dilakukan di frontend saja?
+Hal ini karena frontend berjalan di perangkat pengguna yang dapat dengan mudah dimanipulasi, seperti melalui alat developer browser atau alat eksternal yang memungkinkan pengguna mengubah atau mengabaikan validasi yang ada. Pengguna bahkan bisa melewati seluruh frontend dan mengirimkan data langsung ke backend tanpa melalui validasi, sehingga pembersihan di frontend saja tidak cukup untuk menjamin keamanan dan integritas data yang masuk ke server.
+
+Di sisi lain, backend adalah lapisan terakhir yang dapat dipercaya dan berada di bawah kendali penuh pengembang. Pembersihan di backend memastikan bahwa data yang masuk telah sesuai dengan aturan dan standar yang telah ditetapkan oleh sistem, serta melindungi dari serangan seperti Cross-Site Scripting (XSS) atau SQL Injection. Dengan melakukan pembersihan di backend, aplikasi dapat memproses data dengan aman dan konsisten, terlepas dari bagaimana atau dari mana data tersebut dikirim. Backend memastikan keamanan dan keandalan sistem dengan menjaga data yang diproses telah dibersihkan secara menyeluruh sebelum digunakan dalam sistem.
+
+## Implementasi AJAX dan Modal saat add NFT
+
+### Implementasi Modal
+Pertama, kita perlu menambahkan modal di dalam template `main.html`. Modal ini akan muncul ketika tombol "Add NFT" diklik. Berikut adalah snippet kode modal yang ditambahkan di dalam template `main.html`:
+
+```html
+	<div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
+```
+Konsepnya adalah modal akan muncul ketika tombol "Add NFT" diklik, nanti style hidden akan dihilangkan menggunakana javascript sehingga modal akan muncul.
+Caranya dengan menambahkan event listener pada tombol "Add NFT" yang akan mengubah style modal menjadi visible ketika tombol diklik.
+
+```javascript
+    function showModal() {
+		const modal = document.getElementById('crudModal');
+		const modalContent = document.getElementById('crudModalContent');
+
+		modal.classList.remove('hidden'); 
+		setTimeout(() => {
+			modalContent.classList.remove('opacity-0', 'scale-95');
+			modalContent.classList.add('opacity-100', 'scale-100');
+		}, 50); 
+	}
+``` 
+
+Nanti di buttonnya akan ditambahkan attribut `onclick="showModal()"`. Tidak hanya itu, ketika user memilih untuk keluar modal dengan cara klik button close, maka akan dihilangkan style visible dan modal akan hilang.
+```javascript
+    function hideModal() {
+        const modal = document.getElementById('crudModal');
+        const modalContent = document.getElementById('crudModalContent');
+
+        modalContent.classList.remove('opacity-100', 'scale-100');
+        modalContent.classList.add('opacity-0', 'scale-95');
+        setTimeout(() => {
+            modal.classList.add('hidden');
+        }, 300); 
+    }
+```
+
+### Implementasi AJAX
+Sederhananya, ketika user menambahkan suatu NFT, data yang dimasukkan dalam form field akan dikirim ke database Django. Kemudian, terdapat fungsi yang bertugas untuk mengambil data dari database dengan output JSON melalui routing `api/json`. Fungsi ini akan dipanggil setiap kali pengguna menambahkan NFT. Data yang didapat dari hasil pengambilan ini akan diproses menjadi komponen HTML dan ditambahkan dengan memodifikasi bagian grid items pada DOM.
+
+Hal ini bisa dicapai dengan menambahkan event listener pada form submit. Ketika form di submit, maka akan diambil data dari form field dan dikirim ke server menggunakan fetch(). Setelah mendapat respon dari server, data yang diterima akan diproses dan dibuat menjadi komponen HTML yang akan ditambahkan ke dalam container grid. Untuk menambahkan komponen HTML, kita bisa menggunakan innerHTML seperti yang tertulis di fungsi `refreshNFTEntries()`.
+
+Fungsi untuk submit data ke database
+```javascript
+    function addNFTEntry() {
+		fetch("{% url 'main:add_nft_entry_ajax' %}", {
+		method: "POST",
+		body: new FormData(document.querySelector('#nftEntryForm')),
+		})
+		.then(response => refreshNFTEntries())
+
+		document.getElementById("nftEntryForm").reset(); 
+		document.querySelector("[data-modal-toggle='crudModal']").click();
+
+		return false;
+	}
+```
+
+Fungsi untuk fetching data NFT setiap tambah NFT atau load page pertama kali
+```javascript
+    async function getNFTEntry() {
+        console.log("Fetching NFT entries...");
+        try {
+            const response = await fetch("{% url 'main:show_json' %}");
+            console.log("Response received:", response);
+            const data = await response.json();
+            console.log("JSON data:", data);
+            return data;
+        } catch (error) {
+            console.error("Error fetching NFT entries:", error);
+        }
+    }
+
+    function refreshNFTEntries() {
+        document.getElementById("nft_entry_grid").innerHTML = "";
+        let nftEntries = ""
+        getNFTEntry().then((data) => {
+            data.forEach((nft) => {
+                const nftEntries = `
+                    <div
+                        class="max-w-md rounded-lg overflow-hidden shadow-lg transform transition-transform hover:-translate-y-2 flex flex-col ease-in-out duration-300 h-fit"
+                        style="box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);"
+                        onmouseover="this.style.boxShadow='0 0 20px 0 rgba(255, 255, 255, 0.5), 0 6px 10px -2px rgba(255, 255, 255, 0.5)';"
+                        onmouseout="this.style.boxShadow='0 8px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';"
+                    >
+                        <div class="relative w-full">
+                            <img
+                                class="w-full h-auto object-cover"
+                                src="media/${nft.fields.image}"
+                                alt="${DOMPurify.sanitize(nft.fields.name)}"
+                            />
+
+                            <div
+                                class="absolute inset-0 bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end items-start text-white text-center p-4 pb-16"
+                            >
+                                <h2 class="text-2xl font-bold">${DOMPurify.sanitize(nft.fields.name)}</h2>
+                                <p class="text-lg">${DOMPurify.sanitize(nft.fields.price)} ETH</p>
+                                <p class="text-sm">Created by: ${DOMPurify.sanitize(nft.fields.creator)}</p>
+                            </div>
+                            
+                            <div
+                                class="bottom-0 w-full flex justify-between px-4 py-2 rounded-b-lg"
+                                style="background: linear-gradient(
+                                    -168.39deg,
+                                    #ffffff -278.56%,
+                                    #6d6d6d -78.47%,
+                                    #11101d 91.61%
+                                );"
+                            >
+                                <a
+                                    href="edit-nft/${nft.pk}/"
+                                    class="bg-gray-800 hover:bg-gray-700 text-white py-1 px-3 rounded z-10"
+                                >
+                                    Edit
+                                </a>
+                                
+                                <button
+                                    class="border-red-700 border-[3px] text-red-700 hover:bg-red-700 hover:text-white py-1 px-3 rounded z-10"
+                                    onclick="openModal('modal-delete-${DOMPurify.sanitize(nft.fields.id)}')"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        </div>
+
+                        <div
+                            id="modal-delete-${DOMPurify.sanitize(nft.fields.id)}"
+                            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden rounded-lg"
+                        >
+                            <div class="bg-gray-800 rounded-lg shadow-lg w-11/12 md:max-w-md">
+                                <div class="px-6 py-4">
+                                    <h2 class="text-xl font-bold mb-4 text-white">Confirm Delete</h2>
+                                    <p class="text-gray-300">
+                                        Are you sure you want to delete NFT
+                                        <strong>${DOMPurify.sanitize(nft.fields.name)}</strong>?
+                                    </p>
+                                </div>
+                                <div class="px-6 py-4 flex justify-end space-x-4">
+                                    <button
+                                        class="bg-gray-800 hover:bg-gray-700 text-white py-1 px-3 rounded z-10"
+                                        onclick="closeModal('modal-delete-${DOMPurify.sanitize(nft.fields.id)}')"
+                                    >
+                                        Cancel
+                                    </button>
+                    
+                                        <a
+                                            class="border-red-700 border-[3px] text-red-700 hover:bg-red-700 hover:text-white py-1 px-3 rounded z-10"
+                                            href="/delete-nft/${nft.pk}"
+                                        >
+                                            Delete
+                                        </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.getElementById("nft_entry_grid").innerHTML += nftEntries;});
+        });
+    }
+
+```
+
+

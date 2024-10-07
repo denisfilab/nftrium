@@ -15,6 +15,8 @@ from PIL import Image
 import json
 from django.utils.html import mark_safe
 import xml.dom.minidom
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 
 @login_required(login_url='/login')
@@ -32,14 +34,14 @@ def show_main(request):
     
     nfts = NFT.objects.filter(user=request.user)
 
-    # Iterate through each NFT to calculate adjusted dimensions
+
+
     for nft in nfts:
         try:
             with Image.open(nft.image.path) as img:
                 original_width, original_height = img.size
                 closest_ratio = find_closest_aspect_ratio(original_width, original_height)
                 
-                # Define adjusted dimensions based on the closest aspect ratio
                 if closest_ratio == (5, 4):
                     adjusted_width, adjusted_height = 500 , 400
                 elif closest_ratio == (16, 9):
@@ -51,14 +53,10 @@ def show_main(request):
                 elif closest_ratio == (9, 16):
                     adjusted_width, adjusted_height = 900/2, 1600/2
                 else:
-                    # Default dimensions if no ratio matches
                     adjusted_width, adjusted_height = original_width, original_height
-                
-                # Attach adjusted dimensions to the NFT object
                 nft.adjusted_width = adjusted_width
                 nft.adjusted_height = adjusted_height
         except Exception as e:
-            # Handle exceptions (e.g., missing image)
             nft.adjusted_width = 800  # Default width
             nft.adjusted_height = 600  # Default height
 
@@ -69,6 +67,7 @@ def show_main(request):
         'images': images,
         'count': nfts.count()
     }
+    
     return render(request, "main.html", context)
 
 def find_closest_aspect_ratio(width: int, height: int) -> Tuple[int, int]:
@@ -107,14 +106,37 @@ def create_nft_entry(request):
     context = {'form': form}
     return render(request, "create_nft_entry.html", context)
 
+
+@csrf_exempt
+@require_POST
+def add_nft_entry_ajax(request):
+    name = request.POST.get("name")
+    price = request.POST.get("price")
+    description = request.POST.get("description")
+    image = request.FILES.get("image")
+    creator = request.POST.get("creator")
+    user = request.user
+
+    new_nft = NFT(
+        name=name,
+        price=price,
+        description=description,
+        image=image,
+        creator=creator,
+        user=user
+    )
+    new_nft.save()
+
+    return HttpResponse(b"CREATED", status=201)
+
 # Return all NFTs in XML format
 def show_xml(request):
-    data = NFT.objects.all()
+    data = NFT.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
 # Return all NFTs in JSON format
 def show_json(request):
-    data = NFT.objects.all()
+    data = NFT.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("json", data), content_type="application/json")
 
 # Return a specific NFT by ID in XML format
@@ -179,19 +201,15 @@ def edit_nft_entry(request, nft_id):
 
 @login_required(login_url='/login')
 def delete_nft_entry(request, nft_id):
-    nft = get_object_or_404(NFT, id=nft_id, user=request.user)
-    
-    if request.method == "POST":
-        nft.delete()
-        messages.success(request, 'NFT Anda telah berhasil dihapus!')
-        return redirect('main:show_main')
-    
+    nft = NFT.objects.get(pk = nft_id)
+    nft.delete()
+    messages.success(request, 'NFT Anda telah berhasil dihapus!')
     return redirect('main:show_main')
 
 # New UI Views
 @login_required(login_url='/login')
 def view_json_ui(request):
-    nfts = NFT.objects.all()
+    nfts = NFT.objects.filter(user=request.user)
     data = serializers.serialize('json', nfts)
     parsed = json.loads(data)
     formatted_json = json.dumps(parsed, indent=4)
@@ -203,8 +221,7 @@ def view_json_ui(request):
 # Somehow masi error, returnnya value dari xml aja, g ada teksnys
 @login_required(login_url='/login')
 def view_xml_ui(request):
-    nfts = NFT.objects.all()
-    
+    nfts = NFT.objects.filter(user=request.user)
     data = serializers.serialize('xml', nfts)
     
     parsed_xml = xml.dom.minidom.parseString(data)
@@ -213,3 +230,4 @@ def view_xml_ui(request):
         'pretty_xml': pretty_xml
     }
     return render(request, 'view_xml.html', context)
+

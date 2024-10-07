@@ -3,6 +3,7 @@ import uuid
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class NFT(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=255)  
@@ -21,4 +22,5 @@ class NFT(models.Model):
             unique_string = f"{self.name}{uuid.uuid4()}{self.created_at}".encode('utf-8')
             self.token_id = hashlib.sha256(unique_string).hexdigest()
         super().save(*args, **kwargs) 
+
 
