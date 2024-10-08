@@ -42,8 +42,8 @@
 								Home
 							</a>				
 							<a
-								href="{% url 'main:create_nft_entry' %}"
 								class="{% if request.resolver_match.url_name == 'create_nft_entry' %}border-indigo-500 text-white {% else %} border-transparent text-gray-500 hover:border-gray-300 hover:text-indigo-500{% endif %} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium"
+								onclick="showModal()"
 							>
 								Create NFT
 							</a>

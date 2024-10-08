@@ -7,7 +7,7 @@ urlpatterns = [
     path('', show_main, name='show_main'),
     path('create-nft-entry/', create_nft_entry, name='create_nft_entry'),
     path('nft/<int:nft_id>/', nft_detail, name='nft_detail'),
-    path('create-mood-nft-ajax', add_nft_entry_ajax, name='add_nft_entry_ajax'),
+    path('create-nft-ajax', add_nft_entry_ajax, name='add_nft_entry_ajax'),
 
 
     # API Endpoints
